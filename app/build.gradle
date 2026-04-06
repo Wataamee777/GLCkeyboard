@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.compile.JavaCompile
+
 plugins {
     id 'com.android.application'
 }
@@ -22,11 +24,16 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.toVersion("25")
-        targetCompatibility JavaVersion.toVersion("25")
+        sourceCompatibility JavaVersion.toVersion("21")
+        targetCompatibility JavaVersion.toVersion("21")
     }
 }
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.9.1'
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
 }
