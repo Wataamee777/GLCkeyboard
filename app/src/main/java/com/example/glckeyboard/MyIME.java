@@ -3,7 +3,6 @@ package com.example.glckeyboard;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -43,11 +42,8 @@ public final class MyIME extends InputMethodService {
 
         @NonNull
         LanguageMode next() {
-            return switch (this) {
-                case JAPANESE -> ENGLISH;
-                case ENGLISH -> GALACTIC;
-                case GALACTIC -> JAPANESE;
-            };
+            final LanguageMode[] values = values();
+            return values[(ordinal() + 1) % values.length];
         }
     }
 
@@ -132,14 +128,10 @@ public final class MyIME extends InputMethodService {
         badge.setAllCaps(false);
         badge.setTextLocale(Locale.JAPANESE);
 
-        final int overlayType = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                : WindowManager.LayoutParams.TYPE_PHONE;
-
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                overlayType,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                         | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
